@@ -1,2 +1,18 @@
-\section{Johdanto}
-Hello, world.
+\section{Introduction to network filesystems}
+
+Network file systems allow files on a server to be shared and accessed over the network.
+Several different protocols for network file systems have been designed over the years,
+with the most well-known being Network File System (NFS) and Server Message Block (SMB).
+Though history and specifics of those protocols differ considerably, the common design
+goal shared by both of them is to be transparent to the applications using them.
+That is, applications and libraries should work identically on networked file systems
+as they work on local file systems, without requiring any code changes or recompilation.
+
+The NFS protocol originates from Sun Microsystems, where the initial implementation work for the
+Unix 4.2 operating system was started in 1984~\cite{NFS}. Its original design goals were
+transparent operation with existing programs by maintaining existing Unix file system
+semantics, ability to recover from server reboots or crashes, and having reasonable
+performance. Since then, extensions to the original protocol have been standardized
+in several RFCs, with NFSv3~\cite{NFSv3RFC} in 1995 and NFSv4~\cite{NFSv4RFC},
+bringing several improvements in performance, security and feature set~\cite{NFSv4Better}.
+

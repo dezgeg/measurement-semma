@@ -1,0 +1,57 @@
+Measurement and analysis of large-scale network file system workloads
+http://static.usenix.org/events/usenix08/tech/full_papers/leung/leung.pdf
+http://dl.acm.org/citation.cfm?id=1404030
+5/5 paperi, NetApp, hyvä reverse dependenssejä
+
+Newer Is Sometimes Better: An Evaluation of NFSv4.1
+https://www.fsl.cs.sunysb.edu/docs/nfs4perf/nfs4perf-sigm15.pdf
+http://dl.acm.org.libproxy.helsinki.fi/citation.cfm?id=2745845
+5/5 paperi
+
+LADDIS: the next generation in NFS file server benchmarking
+http://www.cs.cmu.edu/~sm79/w3/archives/papers/wittle93.pdf
+http://dl.acm.org/citation.cfm?id=1361462
+1993, aaika obsolete
+
+Adding Response Time Measurement of CIFS File Server Performance to NetBenc
+https://www.usenix.org/legacy/publications/library/proceedings/nt-sysadmin97/full_papers/swartz/swartz.pdf
+https://www.usenix.org/conference/large-scale-system-administration-windows-nt-workshop/adding-response-time-measurement
+jatkoa edelliselle, ei kovin ihmeellinen
+
+Postmark: A new file system benchmark
+
+
+Analysis of file I/O traces in commercial computing environments
+http://dl.acm.org.libproxy.helsinki.fi/citation.cfm?id=133090&CFID=668815619&CFTOKEN=68953896
+Not good, liian vanha (VMS yms.). Ehkä ok referenssejä 
+
+
+A Large-Scale Study of File-System Contents
+Ehkä ok, Windows, ei-CIFS, mutta referenssejä johonkin vastaavaan Unix-hommaan
+
+Measurements of a distributed file system
+http://dl.acm.org.libproxy.helsinki.fi/citation.cfm?id=121164
+
+Characteristics of files in NFS environments
+http://dl.acm.org.libproxy.helsinki.fi/citation.cfm?id=152431
+
+
+Microsoft Corporation, [MS-CIFS]: Common Internet File System (CIFS) Protocol Specification, 2009:
+http://msdn.microsoft.com/en-us/library/ee442092.aspx
+
+Microsoft Corporation, [MS-SMB]: Server Message Block (SMB) Protocol Specification, 2007: 
+http://msdn.microsoft.com/en-us/library/cc246231.aspx
+
+Microsoft Corporation, [MS-SMB2]: Server Message Block (SMB) Version 2 Protocol Specification, 2007:
+http://msdn.microsoft.com/en-us/library/cc246482.aspx
+
+Unix Talking with PCs: A complete history on the development of Samba from its original author
+http://dl.acm.org.libproxy.helsinki.fi/citation.cfm?id=324735
+
+[NFS] The Sun Network File System: Design, Implementation and Experience (1986)
+http://citeseerx.ist.psu.edu/viewdoc/summary?doi=10.1.1.116.8621
+http://web.stanford.edu/class/cs240/readings/nfs.pdf
+
+[NFSv3] The Sun Network Filesystem: Design, Implementation and Experience
+http://citeseerx.ist.psu.edu/viewdoc/summary?doi=10.1.1.116.8621
+https://www.cs.swarthmore.edu/~newhall/readings/nfs.pdf
