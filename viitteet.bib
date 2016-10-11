@@ -1,3 +1,6 @@
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+% NFS-related RFCs and stuff
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 @techreport{NFS,
  author = {Russel Sandberg},
  title = {{The Sun Network File System: Design, Implementation and Experience}},
@@ -32,7 +35,59 @@
   year = 2003,
   month = april,
 }
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+% SMB second-hand stuff
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+@article{SambaByTridge,
+ author = {Tridgell, Andrew},
+ title = {Samba},
+ journal = {Linux J.},
+ issue_date = {Nov. 1994},
+ volume = {1994},
+ number = {7es},
+ month = nov,
+ year = {1994},
+ issn = {1075-3583},
+ articleno = {3},
+ url = {http://dl.acm.org/citation.cfm?id=324732.324735},
+ acmid = {324735},
+ publisher = {Belltown Media},
+ address = {Houston, TX},
+}
 
+% Dr. Barry Feigenbau, an IBM employee, invented the core of the original SMB protocol, which he initially named after himself: "BAF". He later changed the name to be "SMB" (for "Server Message Block")
+% IBM, Microsoft, 3Com and Intel made up the rest of the initial protocol together.
+% The commands the protocol supported at this stage were basically a mirror of the DOS File IO API calls,
+@misc{Samba4Howto,
+ author = {Jelmer R. Vernooij},
+ title = {{The Official Samba-4 HOWTO}},
+ url = {ftp://suse.cs.utah.edu/postfix.org/postfix-master/root/samba-www/docs/Samba4-HOWTO.pdf},
+ note = {Accessed: 2016-10-11},
+}
+
+% The filesharing protocol at the heart of CIFS is an updated version of the venerable Server Message Block (SMB) protocol, which dates back to the mid-1980s.
+% The new name first appeared around 1996/97 when Microsoft submitted draft CIFS specifications to the Internet Engineering Task Force (IETF).
+% Microsoft's implementations are the de facto CIFS standards. This is no surprise, as the SMB protocol was originally developed by IBM, Microsoft, Intel, and 3Com specifically for MS-DOS and PC-DOS.
+% Like NetBIOS, the Server Message Block protocol originated a long time ago at IBM. Microsoft embraced it, extended it, and in 1996 gave it a marketing upgrade by renaming it "CIFS."
+% In 1992, X/Open (now known as The Open Group) published an SMB specification titled Protocols for X/Open PC Interworking: SMB, Version 2.
+@book{CifsBook,
+ author = {Hertel, Christopher},
+ title = {Implementing CIFS: The Common Internet File System},
+ year = {2003},
+ isbn = {013047116X},
+ publisher = {Prentice Hall Professional Technical Reference},
+}
+
+@book{XopenSmbSpec,
+ author = {X/Open Company Ltd.},
+ title = {Protocols for X/Open PC Internetworking: SMB, Version 2},
+ year = {1992},
+ isbn = {1-872630-28-6},
+ publisher = {X/Open Company Ltd., U.K.},
+}
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+% Actual measurements
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 @inproceedings{NetApp,
  author = {Leung, Andrew W. and Pasupathy, Shankar and Goodson, Garth and Miller, Ethan L.},
  title = {Measurement and Analysis of Large-scale Network File System Workloads},
