@@ -24,3 +24,19 @@ and ran over NetBIOS on the session layer and NBF (NetBIOS frames) on the networ
 Further developments to the protocol were made by Microsoft.
 In 1992 parts of the the protocol were specified in an X/Open standard~\cite{XopenSmbSpec}.
 In 1996, Microsoft started using the Common Internet File System (CIFS) name for the protocol.
+
+\section{Performance measurements}
+
+As mentioned earlier, good performance was one of the design goals of the NFS protocol.
+As a result, various benchmarks for NFS server implementations have been implemented.
+One instance of such a benchmark is LADDIS from the 90s~\cite{LADDIS}, designed and named after by
+several NFS server vendors at that time (\underline{L}egato Systems, \underline{A}uspex Systems, \underline{D}ata General,
+\underline{D}igital Equipment, \underline{I}nterphase and \underline{S}un Microsystems).
+It is designed to be a standard benchmark for making performance comparisons across different NFS server implementations
+or configurations.
+The LADDIS benchmarking software is a synthetic workload generator that talks to the NFS server directly,
+without any dependency on the NFS client implementation of the system generating the workload.
+The implementation of the benchmark consists of making randomly selected NFS protocol operations
+(for instance, creating deleting or reading from a file)
+to the server.
+The distribution of which operations to perform
