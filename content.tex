@@ -40,3 +40,13 @@ The implementation of the benchmark consists of making randomly selected NFS pro
 (for instance, creating deleting or reading from a file)
 to the server.
 The distribution of which operations to perform
+
+\section{Performance differences between protocol revisions}
+
+As was mentioned earlier, good performance was one of the design goals for the NFS protocol,
+and since the original protocol implementation additional efforts have been spent improving the performance of the protocol.
+Naturally, new versions of the protocol raise the question of how much does an improved protocol revision actually help.
+For version 4.1 of the NFS protocol, this has been investigated in the aptly-named article ``Newer Is Sometimes Better: An Evaluation of NFSv4.1''~\cite{NFSv4Better}, which compares NFSv3, NFSv4 and NFSv4.1 performance of the Linux NFS server implementation.
+Their test setup was done on a 10GbE network with five client machines and one server machine, running identical enterprise-class hardware.
+The NFS server was equipped with fast solid-state disks in RAID-0 to keep the focus of the tests on the protocol level performance.
+In addition to comparing performance with multiple clients, the test setup included possibility of adding artificial network latency to the test.
