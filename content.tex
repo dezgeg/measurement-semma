@@ -50,3 +50,17 @@ For version 4.1 of the NFS protocol, this has been investigated in the aptly-nam
 Their test setup was done on a 10GbE network with five client machines and one server machine, running identical enterprise-class hardware.
 The NFS server was equipped with fast solid-state disks in RAID-0 to keep the focus of the tests on the protocol level performance.
 In addition to comparing performance with multiple clients, the test setup included possibility of adding artificial network latency to the test.
+
+According on the team's analysis on their results, a significant improvement that the version 4.1 of the NFS protocol brings is the \emph{delegation
+mechanism} to improve the effectiveness of client-side caching.
+Consider an implementation that wishes to do read caching and simultaneously maintain coherency in case of other clients
+concurrently writing to the same file.
+In the stateless NFSv3 protocol, the client doing the reads must periodically ask the server for the last-modification timestamp of the file in order to notice other clients writing to the file.
+The read delegation feature of NFSv4.1 allows a better way of managing caching.
+The server now maintains state for opened files, so a lone client reading files can proceed with full caching,
+and in case some other client starts writing concurrently, the server will notify the client and recall the delegation.
+
+\begin{figure}[h]
+\centering\includegraphics[width=0.8\textwidth]{images/nfsv41better-reading-small-files.png}
+\caption{Figure 6 from ``Newer Is Sometimes Better: An Evaluation of NFSv4.1''~\cite{NFSv4Better}.}
+\end{figure}
