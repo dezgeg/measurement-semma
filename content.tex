@@ -21,6 +21,7 @@ bringing several improvements in performance, security and feature set~\cite{NFS
 The SMB protocol has a more complex history behind it. The protocol was initially designed
 and implemented by IBM for the DOS operating system in the 80s
 and ran over NetBIOS on the session layer and NBF (NetBIOS frames) on the network and transfer layers~\cite{CifsBook}.
+In addition to being a file server, protocol, it is capable of sharing printers and serial ports over the network as well.
 Further developments to the protocol were made by Microsoft.
 In 1992 parts of the the protocol were specified in an X/Open standard~\cite{XopenSmbSpec}.
 In 1996, Microsoft started using the Common Internet File System (CIFS) name for the protocol.
@@ -75,3 +76,14 @@ This translated into a 8--18\% of slowdown.
 \caption{Figure 6 from ``Newer Is Sometimes Better: An Evaluation of NFSv4.1''~\cite{NFSv4Better}.}
 % Section 4.1 Read Small Files
 \end{figure}
+
+\section{Analysis of a production file server}
+
+Another approach of analysing network file systems is to look at how the actual users of such systems are using it.
+One such example comes from ``Measurement and Analysis of Large-scale Network File System Workloads''~\cite{NetApp} done by NetApp,
+a company developing network storage products.
+The study was done on the corporate's own internal 22 TB file servers by collecting live packet captures of CIFS protocol traffic.
+Compared to other ways of collecting data on file server usage, such as analysing static file system snapshots of the file server,
+the use of network traffic as a data source allows analysis of changes to the file system over time.
+Since user authentication in the test environment was done by a separate Kerberos protocol,
+only IP addresses were used to correlate CIFS sessions to actual unique users of the system.
