@@ -60,7 +60,18 @@ The read delegation feature of NFSv4.1 allows a better way of managing caching.
 The server now maintains state for opened files, so a lone client reading files can proceed with full caching,
 and in case some other client starts writing concurrently, the server will notify the client and recall the delegation.
 
+For concrete numbers on the benefits of delegations, a microbenchmark of repeatedly reading (10 times per file) 10 000 small files performs X times faster.
+On the protocol level, NFSv3 performed 20 times the amount of NFS requests compared to NFSv4.1 with delegations enabled.
+% XXX this microbenchmark is different from the one in the graph below.
+
+However, the delegations feature is not an universal improvement.
+The need for OPEN and CLOSE requests to maintain state of open files on the server can significantly increase the amount of protocol requests made by NFSv4.1 compared to NFSv3.
+For instance, the file server workload of the Filebench benchmark caused an increase of 56\% in the number of protocol requests made by NFSv4.1 over NFSv3.
+This translated into a 8--18\% of slowdown.
+% The biggest difference was in the zero-delay network, where V4.1p was 15% slower
+
 \begin{figure}[h]
 \centering\includegraphics[width=0.8\textwidth]{images/nfsv41better-reading-small-files.png}
 \caption{Figure 6 from ``Newer Is Sometimes Better: An Evaluation of NFSv4.1''~\cite{NFSv4Better}.}
+% Section 4.1 Read Small Files
 \end{figure}
