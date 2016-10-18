@@ -42,7 +42,7 @@ The implementation of the benchmark consists of making randomly selected NFS pro
 to the server.
 The distribution of which operations to perform
 
-\section{Performance differences between protocol revisions}
+\section{Performance differences between protocol revisions} \label{sect:NFSv41}
 
 As was mentioned earlier, good performance was one of the design goals for the NFS protocol,
 and since the original protocol implementation additional efforts have been spent improving the performance of the protocol.
@@ -87,3 +87,10 @@ Compared to other ways of collecting data on file server usage, such as analysin
 the use of network traffic as a data source allows analysis of changes to the file system over time.
 Since user authentication in the test environment was done by a separate Kerberos protocol,
 only IP addresses were used to correlate CIFS sessions to actual unique users of the system.
+
+Previously in section \ref{sect:NFSv41} we discussed the delegations feature NFSv4.1 which would improve performance in the case of files not being concurrently accessed by multiple clients.
+In the NetApp datasets, even non-concurrent sharing of files was relatively uncommon: 23.9\% and 2.9\% files were ever opened by user.
+And with concurrent sharing, the numbers drop down to 7.3\% and 0.3\% respectively.
+So the tradeoffs involved in the NFSv4.1 delegations feature seem justified by these results.
+Although the result was obtained in a CIFS environment instead of NFS.
+the authors claim that the results are not unique to CIFS.
