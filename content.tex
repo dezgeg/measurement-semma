@@ -10,6 +10,8 @@ goal shared by both of them is to be transparent to the applications using them.
 That is, applications and libraries should work identically on networked file systems
 as they work on local file systems, without requiring any code changes or recompilation.
 
+\subsection{NFS}
+
 The NFS protocol originates from Sun Microsystems, where the initial implementation work for the
 Unix 4.2 operating system was started in 1984~\cite{NFS}. Its original design goals were
 transparent operation with existing programs by maintaining existing Unix file system
@@ -17,6 +19,8 @@ semantics, ability to recover from server reboots or crashes, and having reasona
 performance. Since then, extensions to the original protocol have been standardized
 in several RFCs, with NFSv3~\cite{NFSv3RFC} in 1995 and NFSv4~\cite{NFSv4RFC},
 bringing several improvements in performance, security and feature set~\cite{NFSv4Better}.
+
+\subsection{SMB / CIFS}
 
 The SMB protocol has a more complex history behind it. The protocol was initially designed
 and implemented by IBM for the DOS operating system in the 80s
@@ -82,7 +86,8 @@ This translated into a 8--18\% of slowdown.
 Another approach of analysing network file systems is to look at how the actual users of such systems are using it.
 One such example comes from ``Measurement and Analysis of Large-scale Network File System Workloads''~\cite{NetApp} done by NetApp,
 a company developing network storage products.
-The study was done on the corporate's own internal 22 TB file servers by collecting live packet captures of CIFS protocol traffic.
+The study was done on the corporate's own internal file servers by collecting live packet captures of CIFS protocol traffic.
+Data was collected from two different servers, one serving users and one serving engineering users, creating two different datasets.
 Compared to other ways of collecting data on file server usage, such as analysing static file system snapshots of the file server,
 the use of network traffic as a data source allows analysis of changes to the file system over time.
 Since user authentication in the test environment was done by a separate Kerberos protocol,
@@ -94,3 +99,10 @@ And with concurrent sharing, the numbers drop down to 7.3\% and 0.3\% respective
 So the tradeoffs involved in the NFSv4.1 delegations feature seem justified by these results.
 Although the result was obtained in a CIFS environment instead of NFS.
 the authors claim that the results are not unique to CIFS.
+
+\section{Conclusions}
+NFS and SMB/CIFS are widely-used network file system protocols.
+Both of them are complex by the nature of having several protocol revisions developed over the previous three decades.
+Good performance is a primary design goal for them, and properly evaluating performance requires good benchmarks.
+Improvements made in newer protocol revisions (NFSv4.1 for example) can boost performance in common cases,
+but can bring
