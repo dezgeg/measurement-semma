@@ -34,6 +34,8 @@ In 1996, Microsoft started using the Common Internet File System (CIFS) name for
 
 As mentioned earlier, good performance was one of the design goals of the NFS protocol.
 As a result, various benchmarks for NFS server implementations have been implemented.
+
+\subsection{LADDIS}
 One instance of such a benchmark is LADDIS from the 90s~\cite{LADDIS}, designed and named after by
 several NFS server vendors at that time (\underline{L}egato Systems, \underline{A}uspex Systems, \underline{D}ata General,
 \underline{D}igital Equipment, \underline{I}nterphase and \underline{S}un Microsystems).
@@ -56,6 +58,7 @@ Their test setup was done on a 10GbE network with five client machines and one s
 The NFS server was equipped with fast solid-state disks in RAID-0 to keep the focus of the tests on the protocol level performance.
 In addition to comparing performance with multiple clients, the test setup included possibility of adding artificial network latency to the test.
 
+\subsection{NFSv4.1 delegations}
 According on the team's analysis on their results, a significant improvement that the version 4.1 of the NFS protocol brings is the \emph{delegation
 mechanism} to improve the effectiveness of client-side caching.
 Consider an implementation that wishes to do read caching and simultaneously maintain coherency in case of other clients
@@ -76,7 +79,7 @@ This translated into a 8--18\% of slowdown.
 % The biggest difference was in the zero-delay network, where V4.1p was 15% slower
 
 \begin{figure}[h]
-\centering\includegraphics[width=0.8\textwidth]{images/nfsv41better-reading-small-files.png}
+\centering\includegraphics[width=0.5\textwidth]{images/nfsv41better-reading-small-files.png}
 \caption{Figure 6 from ``Newer Is Sometimes Better: An Evaluation of NFSv4.1''~\cite{NFSv4Better}.}
 % Section 4.1 Read Small Files
 \end{figure}
