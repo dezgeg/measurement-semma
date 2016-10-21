@@ -35,6 +35,31 @@ In 1996, Microsoft started using the Common Internet File System (CIFS) name for
 As mentioned earlier, good performance was one of the design goals of the NFS protocol.
 As a result, various benchmarks for NFS server implementations have been implemented.
 
+\subsection{Postmark}
+As most network file systems permit applications to transparently work with them,
+a simple way of benchmarking network file system implementations is to run regular file system benchmarks over them.
+One such instance is the Postmark benchmark, which is designed to have a workload similar to a mail or newsgroup server.
+The benchmark exercises the performance of handling small files by simulating operations on multiple "mailboxes"
+that are directories containing a large number of messages, each with its own file.
+% FIXME: directories only came in later versions
+The test starts with a number of initial files containing a random amount of data according to a configurable uniform random distribution.
+
+
+The workload has a handful of parameters that can be adjusted, for example file sizes, number of files and
+ratio of operations to perform.
+
+Despite this, the benchmark has been popular in both regular and networked file system benchmarks;
+for instance the study ``A Nine Year Study of File System and Storage Benchmarking''~\cite{MetaStudy} from 2008
+surveyed 106 file system and storage related papers from years 1999--2006, and Postmark was used in 30 papers.
+However, it also raises some criticism on the benchmark.
+In particular, the workload of the benchmark doesn't scale well with the increases in the speed of hardware;
+in one extreme case the benchmark completed in under a tenth of a second on modern hardware when the default parameters
+of the benchmark were used.
+Since the defaults for the benchmark run for a too short time to give accurate results,
+the papers' authors picked their own parameters.
+This makes it difficult to compare Postmark results to others' results,
+or even non-reproducible, as many papers failed to report the parameters used in the necessary degree.
+
 \subsection{LADDIS}
 One instance of such a benchmark is LADDIS from the 90s~\cite{LADDIS}, designed and named after by
 several NFS server vendors at that time (\underline{L}egato Systems, \underline{A}uspex Systems, \underline{D}ata General,
