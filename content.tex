@@ -43,11 +43,16 @@ The benchmark exercises the performance of handling small files by simulating op
 that are directories containing a large number of messages, each with its own file.
 % FIXME: directories only came in later versions
 The test starts with a number of initial files containing a random amount of data according to a configurable uniform random distribution.
+Then a number of transactions are performed on the files; each transaction consists of two randomly selected operations.
+The first operation is either a file creation or a file deletion, the second is either reading from a file or appending to a file.
+For each operation, an random file is picked, independ of what while was picked for the other operation of the transaction.
+File creations also write a random amount of initial content to the selected file.
+Amount of data in the files (during initial creation and create or append operations) is kept within configurable limits.
+There are also a handful of other configurable parameters, like initial number of files and ratio of operations to perform.
+The pseudo-random number generator is fixed, so the benchmark with the same parameters should work identically on different systems.
 
-
-The workload has a handful of parameters that can be adjusted, for example file sizes, number of files and
-ratio of operations to perform.
-
+The Postmark authors themselves have numbers comparing performance numbers for comparing local filesystems on both Unix and Windows
+to specialized NetApp storage appliances connected over NFS and CIFS, respectively.
 Despite this, the benchmark has been popular in both regular and networked file system benchmarks;
 for instance the study ``A Nine Year Study of File System and Storage Benchmarking''~\cite{MetaStudy} from 2008
 surveyed 106 file system and storage related papers from years 1999--2006, and Postmark was used in 30 papers.
