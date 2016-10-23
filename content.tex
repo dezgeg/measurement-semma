@@ -39,9 +39,12 @@ As a result, various benchmarks for NFS server implementations have been impleme
 As most network file systems permit applications to transparently work with them,
 a simple way of benchmarking network file system implementations is to run regular file system benchmarks over them.
 One such instance is the Postmark benchmark, which is designed to have a workload similar to a mail or newsgroup server.
-The benchmark exercises the performance of handling small files by simulating operations on multiple "mailboxes"
-that are directories containing a large number of messages, each with its own file.
+The benchmark exercises the performance of handling small files by simulating operations of a server which
+stores mail on the disk as one file per message.
+% The benchmark exercises the performance of handling small files by simulating operations on multiple "mailboxes"
+% that are directories containing a large number of messages, each with its own file.
 % FIXME: directories only came in later versions
+
 The test starts with a number of initial files containing a random amount of data according to a configurable uniform random distribution.
 Then a number of transactions are performed on the files; each transaction consists of two randomly selected operations.
 The first operation is either a file creation or a file deletion, the second is either reading from a file or appending to a file.
@@ -50,10 +53,21 @@ File creations also write a random amount of initial content to the selected fil
 Amount of data in the files (during initial creation and create or append operations) is kept within configurable limits.
 There are also a handful of other configurable parameters, like initial number of files and ratio of operations to perform.
 The pseudo-random number generator is fixed, so the benchmark with the same parameters should work identically on different systems.
+Results from the benchmark consists of details on both the overall benchmark run and details for each operation type.
+The rate of transactions per second in total seems to be the primary metric of the benchmark.
+For each operation type, the number and rate of operations of that type is reported.
+Additionally for the read and write operations, throughput numbers (in bytes/second) are provided as well.
 
 The Postmark authors themselves have numbers comparing performance numbers for comparing local filesystems on both Unix and Windows
 to specialized NetApp storage appliances connected over NFS and CIFS, respectively.
-Despite this, the benchmark has been popular in both regular and networked file system benchmarks;
+The Unix and Windows servers in the test were running on different hardware and file systems,
+with details of the NetApp hardware not disclosed.
+The results claim a transaction rate of 2x-3x for the networked storage compared to local filesystems.
+While this sort of benchmark is somewhat questionable as the disks and other underlying storage hardware aren't equivalent,
+it does show that the neither the network file system protocols nor clients in either operating system have
+bottlenecks that would limit the performance.
+
+The benchmark has been popular in both regular and networked file system benchmarks;
 for instance the study ``A Nine Year Study of File System and Storage Benchmarking''~\cite{MetaStudy} from 2008
 surveyed 106 file system and storage related papers from years 1999--2006, and Postmark was used in 30 papers.
 However, it also raises some criticism on the benchmark.
