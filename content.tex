@@ -1,4 +1,4 @@
-\section{Introduction to network filesystems}
+\section{Introduction to network file systems}
 
 Network file systems allow files on a server to be shared and accessed over the network.
 Several different protocols for network file systems have been designed over the years,
@@ -16,7 +16,7 @@ The NFS protocol originates from Sun Microsystems, where the initial implementat
 Unix 4.2 operating system was started in 1984~\cite{NFS}. Its original design goals were
 transparent operation with existing programs by maintaining existing Unix file system
 semantics, ability to recover from server reboots or crashes, and having reasonable
-performance. Since then, extensions to the original protocol have been standardized
+performance. Since then, extensions to the original protocol have been standardised
 in several RFCs, with NFSv3~\cite{NFSv3RFC} in 1995 and NFSv4~\cite{NFSv4RFC},
 bringing several improvements in performance, security and feature set~\cite{NFSv4Better}.
 
@@ -48,7 +48,7 @@ stores mail on the disk as one file per message.
 The test starts with a number of initial files containing a random amount of data according to a configurable uniform random distribution.
 Then a number of transactions are performed on the files; each transaction consists of two randomly selected operations.
 The first operation is either a file creation or a file deletion, the second is either reading from a file or appending to a file.
-For each operation, an random file is picked, independ of what while was picked for the other operation of the transaction.
+For each operation, an random file is picked, independent of what while was picked for the other operation of the transaction.
 File creations also write a random amount of initial content to the selected file.
 Amount of data in the files (during initial creation and create or append operations) is kept within configurable limits.
 There are also a handful of other configurable parameters, like initial number of files and ratio of operations to perform.
@@ -58,11 +58,11 @@ The rate of transactions per second in total seems to be the primary metric of t
 For each operation type, the number and rate of operations of that type is reported.
 Additionally for the read and write operations, throughput numbers (in bytes/second) are provided as well.
 
-The Postmark authors themselves have numbers comparing performance numbers for comparing local filesystems on both Unix and Windows
-to specialized NetApp storage appliances connected over NFS and CIFS, respectively.
+The Postmark authors themselves have numbers comparing performance numbers for comparing local file systems on both Unix and Windows
+to specialised NetApp storage appliances connected over NFS and CIFS, respectively.
 The Unix and Windows servers in the test were running on different hardware and file systems,
 with details of the NetApp hardware not disclosed.
-The results claim a transaction rate of 2x-3x for the networked storage compared to local filesystems.
+The results claim a transaction rate of 2x-3x for the networked storage compared to local file systems.
 While this sort of benchmark is somewhat questionable as the disks and other underlying storage hardware aren't equivalent,
 it does show that the neither the network file system protocols nor clients in either operating system have
 bottlenecks that would limit the performance.
@@ -117,7 +117,7 @@ According on the team's analysis on their results, a significant improvement tha
 mechanism} to improve the effectiveness of client-side caching.
 Consider an implementation that wishes to do read caching and simultaneously maintain coherency in case of other clients
 concurrently writing to the same file.
-In the stateless NFSv3 protocol, the client doing the reads must periodically ask the server for the last-modification timestamp of the file in order to notice other clients writing to the file.
+In the stateless NFSv3 protocol, the client doing the reads must periodically ask the server for the last-modification time stamp of the file in order to notice other clients writing to the file.
 The read delegation feature of NFSv4.1 allows a better way of managing caching.
 The server now maintains state for opened files, so a lone client reading files can proceed with full caching,
 and in case some other client starts writing concurrently, the server will notify the client and recall the delegation.
@@ -125,7 +125,7 @@ and in case some other client starts writing concurrently, the server will notif
 For concrete numbers on the benefits of delegations,
 figure \ref{fig:nfsv41randread} shows results of a microbenchmark with 5 clients repeatedly reading small files for 5 minutes.
 Files are randomly selected from a set of 10 000 small files of 4KB each.
-NFSv3 starts off being faster, but once the speeds of both protocols have stabilized,
+NFSv3 starts off being faster, but once the speeds of both protocols have stabilised,
 NFSv4.1 has reached 2x the throughput of NFSv3.
 On the protocol level, NFSv3 performed 8.3$\times$ more requests compared to NFSv4.1,
 where 95\% of those requests were GETATTR operations made for cache invalidation.
@@ -149,16 +149,16 @@ Another approach of analysing network file systems is to look at how the actual 
 One such example comes from ``Measurement and Analysis of Large-scale Network File System Workloads''~\cite{NetApp} done by NetApp,
 a company developing network storage products.
 The study was done on the corporate's own internal file servers by collecting live packet captures of CIFS protocol traffic.
-Data was collected from two different servers, one serving users and one serving engineering users, creating two different datasets.
+Data was collected from two different servers, one serving users and one serving engineering users, creating two different data sets.
 Compared to other ways of collecting data on file server usage, such as analysing static file system snapshots of the file server,
 the use of network traffic as a data source allows analysis of changes to the file system over time.
 Since user authentication in the test environment was done by a separate Kerberos protocol,
 only IP addresses were used to correlate CIFS sessions to actual unique users of the system.
 
 Previously in section \ref{sect:NFSv41} we discussed the delegations feature NFSv4.1 which would improve performance in the case of files not being concurrently accessed by multiple clients.
-In the NetApp datasets, even non-concurrent sharing of files was relatively uncommon: 23.9\% and 2.9\% files were ever opened by user.
+In the NetApp data sets, even non-concurrent sharing of files was relatively uncommon: 23.9\% and 2.9\% files were ever opened by user.
 And with concurrent sharing, the numbers drop down to 7.3\% and 0.3\% respectively.
-So the tradeoffs involved in the NFSv4.1 delegations feature seem justified by these results.
+So the trade-offs involved in the NFSv4.1 delegations feature seem justified by these results.
 Although the result was obtained in a CIFS environment instead of NFS.
 the authors claim that the results are not unique to CIFS.
 
@@ -167,5 +167,5 @@ NFS and SMB/CIFS are widely-used network file system protocols.
 Both of them are complex by the nature of having several protocol revisions developed over the previous three decades.
 Good performance is a primary design goal for them, and properly evaluating performance requires good benchmarks.
 Improvements made in newer protocol revisions (NFSv4.1 for example) can boost performance in common cases,
-but those optimizations have trade-offs that can make other use cases slower as well.
+but those optimisations have trade-offs that can make other use cases slower as well.
 (TODO: more stuff here)
