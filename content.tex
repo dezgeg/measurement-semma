@@ -80,17 +80,27 @@ This makes it difficult to compare Postmark results to others' results,
 or even non-reproducible, as many papers failed to report the parameters used in the necessary degree.
 
 \subsection{LADDIS}
-One instance of such a benchmark is LADDIS from the 90s~\cite{LADDIS}, designed and named after by
+One slightly different kind of a benchmark for testing NFS exclusively is LADDIS from the 90s~\cite{LADDIS}, designed and named after by
 several NFS server vendors at that time (\underline{L}egato Systems, \underline{A}uspex Systems, \underline{D}ata General,
 \underline{D}igital Equipment, \underline{I}nterphase and \underline{S}un Microsystems).
-It is designed to be a standard benchmark for making performance comparisons across different NFS server implementations
-or configurations.
+It is designed to be a standard benchmark for making performance comparisons across different NFS server implementations or configurations.
 The LADDIS benchmarking software is a synthetic workload generator that talks to the NFS server directly,
-without any dependency on the NFS client implementation of the system generating the workload.
-The implementation of the benchmark consists of making randomly selected NFS protocol operations
-(for instance, creating deleting or reading from a file)
-to the server.
-The distribution of which operations to perform
+without any dependency on the NFS client implementation of the client system running the benchmark.
+This is an important design choice to keep the benchmark focused on the NFS server implementation and makes the results more comparable
+between different clients used for testing.
+For instance, different clients might generate slightly different protocol level requests for the same high-level file system operation,
+and details of client-side caching could affect the results.
+One downside of this approach is that the benchmark can't be run on newer versions of the protocol without modifications;
+the initial version only supported NFSv2 over UDP~\cite{MetaStudy}.
+Another trait of the benchmark that is specific to network file system benchmarks is that the benchmark can be run with
+multiple client systems generating load on the server.
+For that, the software is split to separate manager and load generation programs that can communicate over the TCP protocol.
+
+TODO: continue this.
+% The implementation of the benchmark consists of making randomly selected NFS protocol operations
+% (for instance, creating deleting or reading from a file)
+% to the server.
+% The distribution of which operations to perform
 
 \section{Performance differences between protocol revisions} \label{sect:NFSv41}
 
