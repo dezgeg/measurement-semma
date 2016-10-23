@@ -122,9 +122,13 @@ The read delegation feature of NFSv4.1 allows a better way of managing caching.
 The server now maintains state for opened files, so a lone client reading files can proceed with full caching,
 and in case some other client starts writing concurrently, the server will notify the client and recall the delegation.
 
-For concrete numbers on the benefits of delegations, a microbenchmark of repeatedly reading (10 times per file) 10 000 small files performs X times faster.
-On the protocol level, NFSv3 performed 20 times the amount of NFS requests compared to NFSv4.1 with delegations enabled.
-% XXX this microbenchmark is different from the one in the graph below.
+For concrete numbers on the benefits of delegations,
+figure \ref{fig:nfsv41randread} shows results of a microbenchmark with 5 clients repeatedly reading small files for 5 minutes.
+Files are randomly selected from a set of 10 000 small files of 4KB each.
+NFSv3 starts off being faster, but once the speeds of both protocols have stabilized,
+NFSv4.1 has reached 2x the throughput of NFSv3.
+On the protocol level, NFSv3 performed 8.3$\times$ more requests compared to NFSv4.1,
+where 95\% of those requests were GETATTR operations made for cache invalidation.
 
 However, the delegations feature is not an universal improvement.
 The need for OPEN and CLOSE requests to maintain state of open files on the server can significantly increase the amount of protocol requests made by NFSv4.1 compared to NFSv3.
@@ -136,6 +140,7 @@ This translated into a 8--18\% of slowdown.
 \centering\includegraphics[width=0.5\textwidth]{images/nfsv41better-reading-small-files.png}
 \caption{Figure 6 from ``Newer Is Sometimes Better: An Evaluation of NFSv4.1''~\cite{NFSv4Better}.}
 % Section 4.1 Read Small Files
+\label{fig:nfsv41randread}
 \end{figure}
 
 \section{Analysis of a production file server}
@@ -162,4 +167,5 @@ NFS and SMB/CIFS are widely-used network file system protocols.
 Both of them are complex by the nature of having several protocol revisions developed over the previous three decades.
 Good performance is a primary design goal for them, and properly evaluating performance requires good benchmarks.
 Improvements made in newer protocol revisions (NFSv4.1 for example) can boost performance in common cases,
-but can bring
+but those optimizations have trade-offs that can make other use cases slower as well.
+(TODO: more stuff here)
