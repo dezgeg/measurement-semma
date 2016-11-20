@@ -189,9 +189,23 @@ Although the result was obtained in a CIFS environment instead of NFS.
 the authors claim that the results are not unique to CIFS.
 
 \section{Conclusions}
+In this paper we have discussed network filesystems.
+They have clear benefits (such as simplified backups) in large computing environments such as corporate networks or universities
+and the performance is comparable to local disks.
 NFS and SMB/CIFS are widely-used network file system protocols.
+Even though their origins are different, with NFS coming from the Unix world
+and SMB/CIFS from the DOS/Windows world, ultimately they both offer very similar functionality.
+In particular, both of them are ``transparent'' and allow applications to work on files over the network
+exactly like they would work on local files.
+
+We have shown different kinds of measurements for network file systems.
+One aspect we've shown is benchmarking.
+Good performance is a a common design goal for network file system protocols,
+so both users and developers of network file systems want to know the system performs as expected.
+We've shown two benchmarks that achieve this via different means:
+Postmark for a workload simulating a real-word server use case,
+and LADDIS for a protocol-level microbenchmark of a NFS server.
+
 Both of them are complex by the nature of having several protocol revisions developed over the previous three decades.
-Good performance is a primary design goal for them, and properly evaluating performance requires good benchmarks.
 Improvements made in newer protocol revisions (NFSv4.1 for example) can boost performance in common cases,
 but those optimisations have trade-offs that can make other use cases slower as well.
-(TODO: more stuff here)
