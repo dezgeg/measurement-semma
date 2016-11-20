@@ -1,6 +1,30 @@
-\section{Introduction to network file systems}
+%\section{Introduction to network file systems}
+\section{Introduction}
 
-Network file systems allow files on a server to be shared and accessed over the network.
+For quite a while now, files have been the way to persistently store information in a computer system
+from both the applications' and users' point of view.
+For instance, even back in the days of DOS the operating system provided built-in support
+for file (and later, directories) management on floppies and hard drives.
+The user could use commands like \texttt{dir} or \texttt{del} to manipulate their
+files and applications were provided with a standard APIs to work with files.
+The typical way of actually storing the data is on a persistent storage media,
+like a hard drive, floppy disk or USB stick that is directly attached to the computer.
+An alternative way is to introduce computer networking into the mix, leading to
+network file systems, bringing a new dimension of capabilities and challenges to file
+management on the table.
+
+In chapter~\ref{sect:NetworkFileSystems} we will discuss the capabilities
+and benefits of network file systems and then concentrate on NFS and SMB/CIFS, two common
+network file system protocols.
+Then we will show various ways of performing measurements on network file systems.
+Chapter~\ref{sect:PerfMeasurements} describes general performance benchmarking methodology
+using the Postmark and LADDIS tools and in chapter~\ref{sect:NFSv41} we will focus
+on a case study on comparing performance between different versions of the NFS protocol.
+Finally, we will show a different sort of measurement in chapter~\ref{sect:NetAppAnalysis}
+where metrics and usage patterns of a real-world network file server are analyzed.
+
+\section{Network file systems} \label{sect:NetworkFileSystems}
+Network file systems allow files on a server to be managed and accessed over the network.
 Several different protocols for network file systems have been designed over the years,
 with the most well-known being Network File System (NFS) and 
 Server Message Block (SMB).
@@ -30,7 +54,9 @@ Further developments to the protocol were made by Microsoft.
 In 1992 parts of the the protocol were specified in an X/Open standard~\cite{XopenSmbSpec}.
 In 1996, Microsoft started using the Common Internet File System (CIFS) name for the protocol.
 
-\section{Performance measurements}
+TODO: more stuff here.
+
+\section{Performance measurements} \label{sect:PerfMeasurements}
 
 As mentioned earlier, good performance was one of the design goals of the NFS protocol.
 As a result, various benchmarks for NFS server implementations have been implemented.
@@ -143,7 +169,7 @@ This translated into a 8--18\% of slowdown.
 \label{fig:nfsv41randread}
 \end{figure}
 
-\section{Analysis of a production file server}
+\section{Analysis of a production file server} \label{sect:NetAppAnalysis}
 
 Another approach of analysing network file systems is to look at how the actual users of such systems are using it.
 One such example comes from ``Measurement and Analysis of Large-scale Network File System Workloads''~\cite{NetApp} done by NetApp,
