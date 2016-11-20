@@ -40,9 +40,25 @@ The NFS protocol originates from Sun Microsystems, where the initial implementat
 Unix 4.2 operating system was started in 1984~\cite{NFS}. Its original design goals were
 transparent operation with existing programs by maintaining existing Unix file system
 semantics, ability to recover from server reboots or crashes, and having reasonable
-performance. Since then, extensions to the original protocol have been standardised
-in several RFCs, with NFSv3~\cite{NFSv3RFC} in 1995 and NFSv4~\cite{NFSv4RFC},
-bringing several improvements in performance, security and feature set~\cite{NFSv4Better}.
+performance.
+The first released version of NFS was included in SunOS 2.0
+% TODO cite solaris book
+and while otherwise functional,
+file locking was not supported and certain behaviors,
+namely append mode writes and removing still-open files were only partially implemented.
+The first published version of the protocol was version 2 of the protocol, commonly abbreviated \emph{NFSv2}.
+It used UDP as the transport layer protocol and was completely stateless.
+This allows a simple method of handling server crashes: a client can simply keep re-sending
+its pending NFS requests until the server is restarted and the client gets a reply back.
+Since then, extensions to the original protocol have been standardised
+in several RFCs.
+The NFSv3 specification~\cite{NFSv3RFC} was published in 1995 and provided improvements
+like 64-bit file sizes, operation over TCP instead of UDP and some more featureful protocol
+requests for increased performance.
+In turn, NFSv4~\cite{NFSv4RFC} and NFSv4.1~\cite{NFSv41RFC} turn the protocol into a stateful one,
+allowing for a whole slew of features such as built-in file locking support, better security
+and better control over client-side caching~\cite{NFSv4Better}.
+We will have a closer look at measuring the improvements provided by NFSv4.1 in chapter~\ref{sect:NFSv41}.
 
 \subsection{SMB / CIFS}
 
