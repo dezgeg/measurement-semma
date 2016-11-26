@@ -197,6 +197,35 @@ the use of network traffic as a data source allows analysis of changes to the fi
 Since user authentication in the test environment was done by a separate Kerberos protocol,
 only IP addresses were used to correlate CIFS sessions to actual unique users of the system.
 
+\begin{table}[h!]
+
+\label{tab:NetAppData}
+\begin{tabu}{r|[1pt]c|c}
+    Dataset & Corporate & Engineering \\
+    \tabucline[1pt]{-}
+    Clients                     & 5261      & 2654      \\
+    Disk space (TB)             & 3         & 28        \\
+    Duration (days)             & 65        & 97        \\
+    Packet capture size (GB)    & 750       & 1500      \\
+    \hline
+    Data read (GB)              & 364.3     & 723.4     \\
+    - per day (GB)              & 5.60      & 7.46      \\
+    Data written (GB)           & 177.7     & 364.4     \\
+    - per day (GB)              & 2.73      & 3.76      \\
+    \hline
+    R/W operation ratio         & 3.2       & 2.3       \\
+    R/W byte ratio              & 2.1       & 2.0       \\
+\end{tabu}
+
+\caption{Overview of file data I/O in the NetApp datasets~\cite{NetApp}.}
+
+\end{table}
+
+Table~\ref{tab:NetAppData} shows basic statistics on the amount of data I/O performed in the datasets.
+From the network point of view, a surprisingly low amount of data transferred is for the actual file data, only 30\%,
+making majority of the traffic being spent in both metadata accesses and protocol overheads.
+On the protocol level, 21\% of the CIFS requests were for file I/O.
+
 Previously in section \ref{sect:NFSv41} we discussed the delegations feature NFSv4.1 which would improve performance in the case of files not being concurrently accessed by multiple clients.
 In the NetApp data sets, even non-concurrent sharing of files was relatively uncommon: 23.9\% and 2.9\% files were ever opened by user.
 And with concurrent sharing, the numbers drop down to 7.3\% and 0.3\% respectively.
