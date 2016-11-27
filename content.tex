@@ -204,7 +204,7 @@ only IP addresses were used to correlate CIFS sessions to actual unique users of
     Dataset & Corporate & Engineering \\
     \tabucline[1pt]{-}
     Clients                     & 5261      & 2654      \\
-    Disk space (TB)             & 3         & 28        \\
+    Disk space in use (TB)      & 3         & 19        \\
     Duration (days)             & 65        & 97        \\
     Packet capture size (GB)    & 750       & 1500      \\
     \hline
@@ -222,9 +222,17 @@ only IP addresses were used to correlate CIFS sessions to actual unique users of
 \end{table}
 
 Table~\ref{tab:NetAppData} shows basic statistics on the amount of data I/O performed in the datasets.
+% TODO complete garbage, it's 70%
 From the network point of view, a surprisingly low amount of data transferred is for the actual file data, only 30\%,
 making majority of the traffic being spent in both metadata accesses and protocol overheads.
 On the protocol level, 21\% of the CIFS requests were for file I/O.
+It's interesting to compare these numbers to the total disk usage of the system:
+only a relatively small amount of it was accessed during the measurement period.
+For instance, by purely looking at the file data I/O numbers,
+the engineering dataset had only 5\% of the in-use disk capacity touched
+in the three-month period.
+This figure doesn't account for files that were accessed multiple times.
+This suggests that
 
 Previously in section \ref{sect:NFSv41} we discussed the delegations feature NFSv4.1 which would improve performance in the case of files not being concurrently accessed by multiple clients.
 In the NetApp data sets, even non-concurrent sharing of files was relatively uncommon: 23.9\% and 2.9\% files were ever opened by user.
