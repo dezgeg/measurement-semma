@@ -248,7 +248,18 @@ with only minor loss of performance compared to the benefits.
 The lower-tier disks could be selected to have a worse write performance
 but better storage density or less power consumption, for instance.
 
+\subsection{I/O pattern analysis}
+Continuing on the numbers in table~\ref{tab:NetAppData},
+both datasets have shown a ratio of 2:1 for the read:write byte ratio.
+So for each GB of file data written, roughly 2 GB of bytes read were observed.
+The authors noted that the result was unexpectedly low when compared to results from other file system studies.
+Older studies from 2000 and earlier had shown R/W ratios of 4:1 or higher.
+It was speculated that improved client-side caching done by operating systems
+has significantly reduced the amount of reads.
+Additionally, network file systems are not expected to contain as large fraction of read-heavy system files as local file systems do.
 
+Overall, these observations about increased write amounts suggests new possibilities for improving file servers.
+Specifically, filesystems optimized for write-heavy workloads like WAFL~\cite{WAFL} and Sprite LFS~\cite{SpriteLfs} are recommended.
 
 \subsection{File sharing}
 
