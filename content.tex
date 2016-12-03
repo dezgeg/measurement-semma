@@ -197,6 +197,8 @@ the use of network traffic as a data source allows analysis of changes to the fi
 Since user authentication in the test environment was done by a separate Kerberos protocol,
 only IP addresses were used to correlate CIFS sessions to actual unique users of the system.
 
+\subsection{I/O amount analysis}
+
 \begin{table}[h!]
 
 \label{tab:NetAppData}
@@ -228,11 +230,27 @@ making majority of the traffic being spent in both metadata accesses and protoco
 On the protocol level, 21\% of the CIFS requests were for file I/O.
 It's interesting to compare these numbers to the total disk usage of the system:
 only a relatively small amount of it was accessed during the measurement period.
-For instance, by purely looking at the file data I/O numbers,
-the engineering dataset had only 5\% of the in-use disk capacity touched
-in the three-month period.
-This figure doesn't account for files that were accessed multiple times.
-This suggests that
+By purely looking at the file data I/O numbers,
+the corporate and engineering datasets had only 18\% and 6\% of the
+in-use disk capacity touched in the three-month period.
+And even these numbers don't account for files that were accessed multiple times.
+This suggests that a large amount of data in the measured workload is for archival purposes,
+i.e. written once and then left alone for most of the time.
+This observation is confirmed by analyzing the amount of times a file is reopened on a per-file level.
+For the observed workload, 65\% of files are only ever opened once and 94\% are opened less than five times.
+Furthermore, re-opens of a file often occur in a short timespan and are correlated to each other,
+as a majority of file re-opens happen less than one minute after the file has been closed.
+From a storage server designer's point of view,
+these observations suggest a number of improvements that could be made on several layers of the system.
+The authors suggest that once the infrequently accessed files could be identified,
+they could be compressed or moved to a lower-tier storage,
+with only minor loss of performance compared to the benefits.
+The lower-tier disks could be selected to have a worse write performance
+but better storage density or less power consumption, for instance.
+
+
+
+\subsection{File sharing}
 
 Previously in section \ref{sect:NFSv41} we discussed the delegations feature NFSv4.1 which would improve performance in the case of files not being concurrently accessed by multiple clients.
 In the NetApp data sets, even non-concurrent sharing of files was relatively uncommon: 23.9\% and 2.9\% files were ever opened by user.
