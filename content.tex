@@ -41,8 +41,7 @@ Unix 4.2 operating system was started in 1984~\cite{NFS}. Its original design go
 transparent operation with existing programs by maintaining existing Unix file system
 semantics, ability to recover from server reboots or crashes, and having reasonable
 performance.
-The first released version of NFS was included in SunOS 2.0
-% TODO cite solaris book
+The first released version of NFS was included in SunOS 2.0~\cite{SolarisBook}
 and while otherwise functional,
 file locking was not supported and certain behaviors,
 namely append mode writes and removing still-open files were only partially implemented.
@@ -166,6 +165,19 @@ For version 4.1 of the NFS protocol, this has been investigated in the aptly-nam
 Their test setup was done on a 10GbE network with five client machines and one server machine, running identical enterprise-class hardware.
 The NFS server was equipped with fast solid-state disks in RAID-0 to keep the focus of the tests on the protocol level performance.
 In addition to comparing performance with multiple clients, the test setup included possibility of adding artificial network latency to the test.
+
+\begin{figure}[h]
+\centering\includegraphics[width=0.5\textwidth]{images/nfsv41better-random-read-throughput.png}
+\caption{Figure 1 from ``Newer Is Sometimes Better: An Evaluation of NFSv4.1''~\cite{NFSv4Better}.}
+% Section 3.1 Random read
+\label{fig:NFSv41ReadThroughput}
+\end{figure}
+
+Figure~\ref{fig:NFSv41ReadThroughput} shows throughput numbers of reading a 20 GB file with 16 threads for five minutes.
+The experiment was done with varying parameters for the I/O block size and simulated network latency.
+In this case, there was no visible difference between NFSv3 and NFSv4.1 as either the network or the disk array was the bottleneck.
+Similar results were observed in other data-intensive workloads,
+differences between v3 and v4.1 were on the order of 2\%.
 
 \subsection{NFSv4.1 delegations}
 According on the team's analysis on their results, a significant improvement that the version 4.1 of the NFS protocol brings is the \emph{delegation
