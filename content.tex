@@ -257,7 +257,10 @@ Older studies from 2000 and earlier had shown R/W ratios of 4:1 or higher.
 It was speculated that improved client-side caching done by operating systems
 has significantly reduced the amount of reads.
 Additionally, network file systems are not expected to contain as large fraction of read-heavy system files as local file systems do.
-
+Another way of classifying data I/Os is whether accesses to an open file are purely reads or writes, or a mix of both.
+Again, the results from the CIFS study were quite different,
+with over 20\% of the bytes transferred in mixed read-write I/Os,
+compared to less that 7\% in the previous studies.
 Overall, these observations about increased write amounts suggests new possibilities for improving file servers.
 Specifically, filesystems optimized for write-heavy workloads like WAFL~\cite{WAFL} and Sprite LFS~\cite{SpriteLfs} are recommended.
 
