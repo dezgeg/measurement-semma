@@ -125,20 +125,33 @@ or even non-reproducible, as many papers failed to report the parameters used in
 One slightly different kind of a benchmark for testing NFS exclusively is LADDIS from the 90s~\cite{LADDIS}, designed and named after by
 several NFS server vendors at that time (\underline{L}egato Systems, \underline{A}uspex Systems, \underline{D}ata General,
 \underline{D}igital Equipment, \underline{I}nterphase and \underline{S}un Microsystems).
+
 It is designed to be a standard benchmark for making performance comparisons across different NFS server implementations or configurations.
-The LADDIS benchmarking software is a synthetic workload generator that talks to the NFS server directly,
+
+Compared to a general file system benchmark like Postmark that was discussed previously,
+LADDIS takes a different approach: it talks to the NFS server directly
 without any dependency on the NFS client implementation of the client system running the benchmark.
 This is an important design choice to keep the benchmark focused on the NFS server implementation and makes the results more comparable
 between different clients used for testing.
 For instance, different clients might generate slightly different protocol level requests for the same high-level file system operation,
 and details of client-side caching could affect the results.
-One downside of this approach is that the benchmark can't be run on newer versions of the protocol without modifications;
-the initial version only supported NFSv2 over UDP~\cite{MetaStudy}.
-Another trait of the benchmark that is specific to network file system benchmarks is that the benchmark can be run with
+Another unique trait of the benchmark that is specific to network file system benchmarking is that the benchmark can be run with
 multiple client systems generating load on the server.
-For that, the software is split to separate manager and load generation programs that can communicate over the TCP protocol.
+To implement that, the software is split to separate manager and load generation programs that can communicate over the TCP protocol.
+These two traits of LADDIS are the main improvements over previous NFS benchmarking programs such as nhfsstone.
 
-TODO: continue this.
+The actual benchmark is implemented as a synthetic workload generator.
+A number of NFS protocol-level operations are randomly selected from a predefined distribution of NFS operation types
+based on a certain workload study.
+These random operations are made at a certain load rate, indicated in operations per second.
+For each request, the response time is measured.
+The test run is repeated with increasingly larger load rates until the NFS server becomes overloaded and can't keep up with the request rate.
+
+One downside of the approach of implementing the NFS client in the benchmark software itself is that
+that the benchmark can't be run on newer versions of the protocol without modifications.
+The initial version only supported NFSv2 over UDP~\cite{MetaStudy},
+While the version 2.0 of the SFS benchmark added NFSv3 support, any versions newer than that never got support.
+
 % The implementation of the benchmark consists of making randomly selected NFS protocol operations
 % (for instance, creating deleting or reading from a file)
 % to the server.
