@@ -26,9 +26,8 @@ where metrics and usage patterns of a real-world network file server are analyze
 \section{Network file systems} \label{sect:NetworkFileSystems}
 Network file systems allow files on a server to be managed and accessed over the network.
 Several different protocols for network file systems have been designed over the years,
-with the most well-known being Network File System (NFS) and 
-Server Message Block (SMB).
-% Common Internet File System (CIFS).
+with the most well-known being NFS (Network File System) and 
+SMB/CIFS (Server Message Block and Common Internet File System, respectively).
 Though history and specifics of those protocols differ considerably, the common design
 goal shared by both of them is to be transparent to the applications using them.
 That is, applications and libraries should work identically on networked file systems
@@ -36,7 +35,7 @@ as they work on local file systems, without requiring any code changes or recomp
 
 \subsection{NFS}
 
-The NFS protocol originates from Sun Microsystems, where the initial implementation work for the
+The NFS (Network File System) protocol originates from Sun Microsystems, where the initial implementation work for the
 Unix 4.2 operating system was started in 1984~\cite{NFS}. Its original design goals were
 transparent operation with existing programs by maintaining existing Unix file system
 semantics, ability to recover from server reboots or crashes, and having reasonable
@@ -61,20 +60,36 @@ We will have a closer look at measuring the improvements provided by NFSv4.1 in 
 
 \subsection{SMB / CIFS}
 
-The SMB protocol has a more complex history behind it. The protocol was initially designed
-and implemented by IBM for the DOS operating system in the 80s
+The SMB (Server Message Block) protocol has a more complex history behind it.
+The protocol was initially designed and implemented by IBM for the DOS operating system in the 80s
 and ran over NetBIOS on the session layer and NBF (NetBIOS frames) on the network and transfer layers~\cite{CifsBook}.
 In addition to being a file server, protocol, it is capable of sharing printers and serial ports over the network as well.
-Further developments to the protocol were made by Microsoft.
-In 1992 parts of the the protocol were specified in an X/Open standard~\cite{XopenSmbSpec}.
-In 1996, Microsoft started using the Common Internet File System (CIFS) name for the protocol.
+Further developments to the protocol were made by Microsoft,
+and the protocol is still used in Windows today.
+In 1992 parts of the the protocol were specified in an X/Open standard~\cite{XopenSmbSpec},
+but many of the extensions Microsoft added to the protocol were proprietary for a long time~\cite{SambaWritten}.
+However, a reverse engineered implementation called Samba~\cite{SambaWritten} exists for Linux and other Unix systems and allows interoperation with other typically-Windows SMB clients and servers.
+Later on, the specifications have been made public~\cite{MsCIFS}.
+The SMB protocol also goes by the name CIFS (Common Internet File System)
+as Microsoft started using that name for the protocol.
 
-TODO: more stuff here.
-
-\section{Performance measurements} \label{sect:PerfMeasurements}
+\section{Benchmarking} \label{sect:PerfMeasurements}
+\subsection{Introduction to benchmarking}
 
 As mentioned earlier, good performance was one of the design goals of the NFS protocol.
-As a result, various benchmarks for NFS server implementations have been implemented.
+To verify that a sufficient level of performance has been reached,
+methods of measuring performance are required.
+This process is also known as benchmarking.
+A typical benchmark is a piece of software that can be run with little to none user interaction,
+and produces performance numbers based on some metric that is being measured.
+The performance of two systems can be compared by running the same benchmark on both of them,
+for instance a file system benchmark could be run on a network file system and on a local filesystems
+to make a comparison between them.
+%Benchmarks can be roughly classified into two categories: \emph{micro}- and \emph{macrobenchmarks}.
+%Macrobenchmarks measure performance 
+
+We will now review two popular benchmarks capable of measuring performance on network file systems:
+Postmark, a general filesystem benchmark and LADDIS, a NFS-specific benchmark.
 
 \subsection{Postmark}
 As most network file systems permit applications to transparently work with them,
@@ -124,6 +139,7 @@ or even non-reproducible, as many papers failed to report the parameters used in
 One slightly different kind of a benchmark for testing NFS exclusively is LADDIS from the 90s~\cite{LADDIS}, designed and named after by
 several NFS server vendors at that time (\underline{L}egato Systems, \underline{A}uspex Systems, \underline{D}ata General,
 \underline{D}igital Equipment, \underline{I}nterphase and \underline{S}un Microsystems).
+Additionally, LADDIS was included in the SPEC (Standard Performance Evaluation Corporation) System File Server (SFS) benchmark suite in 1993.
 
 It is designed to be a standard benchmark for making performance comparisons across different NFS server implementations or configurations.
 
@@ -149,7 +165,7 @@ The test run is repeated with increasingly larger load rates until the NFS serve
 One downside of the approach of implementing the NFS client in the benchmark software itself is that
 that the benchmark can't be run on newer versions of the protocol without modifications.
 The initial version only supported NFSv2 over UDP~\cite{MetaStudy},
-While the version 2.0 of the SFS benchmark added NFSv3 support, any versions newer than that never got support.
+While the version 2.0 of the SFS benchmark added NFSv3 support, any newer NFS versions than that never got any support.
 
 % The implementation of the benchmark consists of making randomly selected NFS protocol operations
 % (for instance, creating deleting or reading from a file)
