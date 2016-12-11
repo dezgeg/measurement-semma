@@ -85,8 +85,6 @@ and produces performance numbers based on some metric that is being measured.
 The performance of two systems can be compared by running the same benchmark on both of them,
 for instance a file system benchmark could be run on a network file system and on a local filesystems
 to make a comparison between them.
-%Benchmarks can be roughly classified into two categories: \emph{micro}- and \emph{macrobenchmarks}.
-%Macrobenchmarks measure performance 
 
 We will now review two popular benchmarks capable of measuring performance on network file systems:
 Postmark, a general filesystem benchmark and LADDIS, a NFS-specific benchmark.
@@ -97,9 +95,6 @@ a simple way of benchmarking network file system implementations is to run regul
 One such instance is the Postmark benchmark, which is designed to have a workload similar to a mail or newsgroup server.
 The benchmark exercises the performance of handling small files by simulating operations of a server which
 stores mail on the disk as one file per message.
-% The benchmark exercises the performance of handling small files by simulating operations on multiple "mailboxes"
-% that are directories containing a large number of messages, each with its own file.
-% FIXME: directories only came in later versions
 
 The test starts with a number of initial files containing a random amount of data according to a configurable uniform random distribution.
 Then a number of transactions are performed on the files; each transaction consists of two randomly selected operations.
@@ -184,7 +179,7 @@ In addition to comparing performance with multiple clients, the test setup inclu
 
 \begin{figure}[h]
 \centering\includegraphics[width=0.5\textwidth]{images/nfsv41better-random-read-throughput.png}
-\caption{Figure 1 from ``Newer Is Sometimes Better: An Evaluation of NFSv4.1''~\cite{NFSv4Better}.}
+\caption{Throughput of randomly reading through a 20 GB file with 16 threads. Figure 1 from ``Newer Is Sometimes Better: An Evaluation of NFSv4.1''~\cite{NFSv4Better}.}
 % Section 3.1 Random read
 \label{fig:NFSv41ReadThroughput}
 \end{figure}
@@ -196,6 +191,14 @@ Similar results were observed in other data-intensive workloads,
 differences between v3 and v4.1 were on the order of 2\%.
 
 \subsection{NFSv4.1 delegations}
+
+\begin{figure}[h]
+\centering\includegraphics[width=0.5\textwidth]{images/nfsv41better-reading-small-files.png}
+\caption{Throughput of reading from a large number of small files. Figure 6 from ``Newer Is Sometimes Better: An Evaluation of NFSv4.1''~\cite{NFSv4Better}.}
+% Section 4.1 Read Small Files
+\label{fig:nfsv41randread}
+\end{figure}
+
 According on the team's analysis on their results, a significant improvement that the version 4.1 of the NFS protocol brings is the \emph{delegation
 mechanism} to improve the effectiveness of client-side caching.
 Consider an implementation that wishes to do read caching and simultaneously maintain coherency in case of other clients
@@ -217,14 +220,16 @@ However, the delegations feature is not an universal improvement.
 The need for OPEN and CLOSE requests to maintain state of open files on the server can significantly increase the amount of protocol requests made by NFSv4.1 compared to NFSv3.
 For instance, the file server workload of the Filebench benchmark caused an increase of 56\% in the number of protocol requests made by NFSv4.1 over NFSv3.
 This translated into a 8--18\% of slowdown.
-% The biggest difference was in the zero-delay network, where V4.1p was 15% slower
 
-\begin{figure}[h]
-\centering\includegraphics[width=0.5\textwidth]{images/nfsv41better-reading-small-files.png}
-\caption{Figure 6 from ``Newer Is Sometimes Better: An Evaluation of NFSv4.1''~\cite{NFSv4Better}.}
-% Section 4.1 Read Small Files
-\label{fig:nfsv41randread}
-\end{figure}
+Overall, it was heavily dependent on the workload whether NFSv4.1 would perform better than NFSv3.
+The better client-side caching originating from the delegations feature was found to
+be a major improvement in some cases (up to 172$\times$ in a microbenchmark),
+but the newer ``chattier'' protocol was often slightly slower in other situations.
+The result also depended on the amount of latency in the network,
+with NFSv4.1 being comparatively better in high-latency networks.
+Finally, it was observed that the Linux implementation that was tested
+did not make full use of all the new improvements in NFSv4.1,
+so further improvements could still be done.
 
 \section{Analysis of a production file server} \label{sect:NetAppAnalysis}
 
@@ -242,7 +247,6 @@ only IP addresses were used to correlate CIFS sessions to actual unique users of
 
 \begin{table}[h!]
 
-\label{tab:NetAppData}
 \begin{tabu}{r|[1pt]c|c}
     Dataset & Corporate & Engineering \\
     \tabucline[1pt]{-}
@@ -259,16 +263,16 @@ only IP addresses were used to correlate CIFS sessions to actual unique users of
     R/W operation ratio         & 3.2       & 2.3       \\
     R/W byte ratio              & 2.1       & 2.0       \\
 \end{tabu}
+\label{tab:NetAppData}
 
 \caption{Overview of file data I/O in the NetApp datasets~\cite{NetApp}.}
 
 \end{table}
 
 Table~\ref{tab:NetAppData} shows basic statistics on the amount of data I/O performed in the datasets.
-% TODO complete garbage, it's 70%
-From the network point of view, a surprisingly low amount of data transferred is for the actual file data, only 30\%,
-making majority of the traffic being spent in both metadata accesses and protocol overheads.
-On the protocol level, 21\% of the CIFS requests were for file I/O.
+From the network point of view, roughly 70\% of the bytes transferred were spent
+on reading or writing actual file data,
+with the rest being both protocol overheads and metadata requests.
 It's interesting to compare these numbers to the total disk usage of the system:
 only a relatively small amount of it was accessed during the measurement period.
 By purely looking at the file data I/O numbers,
@@ -278,9 +282,19 @@ And even these numbers don't account for files that were accessed multiple times
 This suggests that a large amount of data in the measured workload is for archival purposes,
 i.e. written once and then left alone for most of the time.
 This observation is confirmed by analyzing the amount of times a file is reopened on a per-file level.
-For the observed workload, 65\% of files are only ever opened once and 94\% are opened less than five times.
+For the measured workload, 65\% of files are only ever opened once and 94\% are opened less than five times.
+Figure~\ref{fig:NetAppFileOpens} shows the distribution of the file open frequencies broken
+down for both datasets.
 Furthermore, re-opens of a file often occur in a short timespan and are correlated to each other,
 as a majority of file re-opens happen less than one minute after the file has been closed.
+
+\begin{figure}[h]
+\centering\includegraphics[width=0.5\textwidth]{images/netapp-file-opens.png}
+\caption{Distribution of the measured file open frequencies. Figure 8(a) from ``Measurement and Analysis of Large-scale Network File System Workloads''~\cite{NFSv4Better}.}
+% Section 3.1 Random read
+\label{fig:NetAppFileOpens}
+\end{figure}
+
 From a storage server designer's point of view,
 these observations suggest a number of improvements that could be made on several layers of the system.
 The authors suggest that once the infrequently accessed files could be identified,
@@ -310,7 +324,8 @@ Specifically, filesystems optimized for write-heavy workloads like WAFL~\cite{WA
 Previously in section \ref{sect:NFSv41} we discussed the delegations feature NFSv4.1 which would improve performance in the case of files not being concurrently accessed by multiple clients.
 In the NetApp data sets, even non-concurrent sharing of files was relatively uncommon: 23.9\% and 2.9\% files were ever opened by user.
 And with concurrent sharing, the numbers drop down to 7.3\% and 0.3\% respectively.
-So the trade-offs involved in the NFSv4.1 delegations feature seem justified by these results.
+So the trade-offs involved in the NFSv4.1 delegations feature seem justified by these results;
+optimizing for the case where files are not being shared concurrently is a valid optimization.
 Although the result was obtained in a CIFS environment instead of NFS.
 the authors claim that the results are not unique to CIFS.
 
@@ -332,6 +347,8 @@ We've shown two benchmarks that achieve this via different means:
 Postmark for a workload simulating a real-word server use case,
 and LADDIS for a protocol-level microbenchmark of a NFS server.
 
-Both of them are complex by the nature of having several protocol revisions developed over the previous three decades.
-Improvements made in newer protocol revisions (NFSv4.1 for example) can boost performance in common cases,
+Both of the reviewed network file system protocols are complex by the nature of having several protocol revisions developed over the previous three decades.
+Improvements made in newer protocol revisions, for instance in NFSv4.1 that we reviewed, can boost performance in common cases,
 but those optimisations have trade-offs that can make other use cases slower as well.
+Capturing CIFS network packets has shown to be a viable method of measuring usage of a network file server which can provide a variety of useful measurements.
+In turn, those results can give insights on further improvements to file servers on multiple levels of the storage stack.
